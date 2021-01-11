@@ -4,6 +4,7 @@
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
 static int centered = 0;                    /* -c option; centers dmenu on screen */
 static int min_width = 500;                    /* minimum width when centered */
+static int center_width_override = -1;		/* do not compute center width, just use this value */
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 				  "Liberation Mono:pixelsize=12:antialias=true:autohint=true"

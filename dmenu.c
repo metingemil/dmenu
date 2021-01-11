@@ -92,6 +92,9 @@ calcoffsets(void)
 static int
 max_textw(void)
 {
+	if(center_width_override != -1 && centered == 1) {
+		return center_width_override;
+	}
 	int len = 0;
 	for (struct item *item = items; item && item->text; item++)
 		len = MAX(TEXTW(item->text), len);
@@ -734,6 +737,9 @@ main(int argc, char *argv[])
 			fast = 1;
 		else if (!strcmp(argv[i], "-c"))   /* centers dmenu on screen */
 			centered = 1;
+		else if (!strcmp(argv[i], "-cw")) { /*if centered skip the computation of max width */
+			center_width_override = atoi(argv[++i]);
+		}
 		else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
 			fstrncmp = strncasecmp;
 			fstrstr = cistrstr;
