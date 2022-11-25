@@ -863,7 +863,7 @@ usage(void)
 {
 	die("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
 	    "             [-x xoffset] [-y yoffset] [-z width]\n"
-	    "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\");
+	    "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]");
 }
 
 int

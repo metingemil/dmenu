@@ -238,54 +238,6 @@ else
 int
 drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char *text, int invert)
 {
-/*  comment_1
-char buf[1024];
-int ty;
-unsigned int ew;
-XftDraw *d = NULL;
-Fnt *usedfont, *curfont, *nextfont;
-size_t i, len;
-int utf8strlen, utf8charlen, render = x || y || w || h;
-long utf8codepoint = 0;
-const char *utf8str;
-FcCharSet *fccharset;
-FcPattern *fcpattern;
-FcPattern *match;
-XftResult result;
-int charexists = 0;
-
-if (!drw || (render && !drw->scheme) || !text || !drw->fonts)
-	return 0;
-
-if (!render) {
-	w = ~w;
-} else {
-	XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
-	XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-	d = XftDrawCreate(drw->dpy, drw->drawable,
-			  DefaultVisual(drw->dpy, drw->screen),
-			  DefaultColormap(drw->dpy, drw->screen));
-	x += lpad;
-	w -= lpad;
-}
-
-usedfont = drw->fonts;
-while (1) {
-	utf8strlen = 0;
-	utf8str = text;
-	nextfont = NULL;
-	while (*text) {
-		utf8charlen = utf8decode(text, &utf8codepoint, UTF_SIZ);
-		for (curfont = drw->fonts; curfont; curfont = curfont->next) {
-			charexists = charexists || XftCharExists(drw->dpy, curfont->xfont, utf8codepoint);
-			if (charexists) {
-				if (curfont == usedfont) {
-					utf8strlen += utf8charlen;
-					text += utf8charlen;
-				} else {
-					nextfont = curfont;
-				}
-======= */
 	int i, ty, ellipsis_x = 0;
 	unsigned int tmpw, ew, ellipsis_w = 0, ellipsis_len;
 	XftDraw *d = NULL;
@@ -359,48 +311,16 @@ while (1) {
 			}
 
 			if (overflow || !charexists || nextfont)
-// comment 2 >>>>>>> suckless_master
 				break;
-			}
+			else
+				charexists = 0;
 		}
 
-//<<<<<<< HEAD
-//		if (!charexists || nextfont)
-//			break;
-//		else
-//			charexists = 0;
-//	}
-//
-//	if (utf8strlen) {
-//		drw_font_getexts(usedfont, utf8str, utf8strlen, &ew, NULL);
-//		/* shorten text if necessary */
-//		if (ew > w)
-//			for (ew = 0, len = 0; ew < w - lpad * 2 && len < MIN(utf8strlen, sizeof(buf) - 1); len++)
-//				drw_font_getexts(usedfont, utf8str, len, &ew, NULL);
-//		else
-//			len = MIN(utf8strlen, sizeof(buf) - 1);
-//
-//		if (len) {
-//			memcpy(buf, utf8str, len);
-//			buf[len] = '\0';
-//			if (len < utf8strlen)
-//				for (i = len; i && i > len - 3; buf[--i] = '.')
-//					; /* NOP */
-//
-//			if (render) {
-//				ty = y + (h - usedfont->h) / 2 + usedfont->xfont->ascent;
-//				XftDrawStringUtf8(d, &drw->scheme[invert ? ColBg : ColFg],
-//				                  usedfont->xfont, x, ty, (XftChar8 *)buf, len);
-//			}
-//			x += ew;
-//			w -= ew;
-//=======
 		if (utf8strlen) {
 			if (render) {
 				ty = y + (h - usedfont->h) / 2 + usedfont->xfont->ascent;
 				XftDrawStringUtf8(d, &drw->scheme[invert ? ColBg : ColFg],
 				                  usedfont->xfont, x, ty, (XftChar8 *)utf8str, utf8strlen);
-//>>>>>>> suckless_master
 			}
 			x += ew;
 			w -= ew;
